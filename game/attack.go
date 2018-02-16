@@ -40,7 +40,7 @@ func (game *Game) Attack(attacker NationName, defender NationName, attackArmies 
 		}
 	}
 
-	return result, errors.New("not yet implemented")
+	return result, nil
 }
 
 func drawBattleNumbers(amount ArmyCount) []int {
