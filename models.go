@@ -32,10 +32,6 @@ type BattleResult string
 const CONQUERED BattleResult = "CONQUERED"
 const DEFENDED BattleResult = "DEFENDED"
 
-/*
- * World logic
- */
-
 // Attacks a neighbouring nation. Removes killed troops and sets the occupant
 // of the attacked nation if no defending troops are left.
 //
