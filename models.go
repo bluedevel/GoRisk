@@ -32,7 +32,19 @@ type BattleResult string
 const CONQUERED BattleResult = "CONQUERED"
 const DEFENDED BattleResult = "DEFENDED"
 
-// Attacks a neighbouring nation. Removes killed troops and sets the occupant
+// Moves armies from one nation to another
+//
+// Return error if:
+// 	1) There is no player by this name
+// 	2) There are no nations by this names
+// 	3) The army count is smaller than one
+//	4) The nations are not occupied by the player
+//	5) There is no connecting occupied region between the nations
+func (game *Game) MoveArmies(nameName PlayerName, from NationName, to NationName, amount ArmyCount) error {
+	return errors.New("not yet implemented")
+}
+
+// Attacks a neighbouring nation. Removes defeated armies and sets the occupant
 // of the attacked nation if no defending troops are left.
 //
 // Returns the result of the battle.
