@@ -28,7 +28,17 @@ func (game *Game) Attack(attacker NationName, defender NationName, attackArmies 
 	sort.Sort(sort.Reverse(sort.IntSlice(attackPoints)))
 	sort.Sort(sort.Reverse(sort.IntSlice(defendPoints)))
 
-	for i := 0; i < min(int(attackArmies), int(defendArmies)); i++ {
+	fightBattle(attackingNation, defendingNation, attackPoints, defendPoints, &attackArmies)
+	occupyNationIfDefeated(attackingNation, defendingNation, attackArmies)
+
+	result.attackPoints = attackPoints
+	result.defendPoints = defendPoints
+
+	return result, nil
+}
+
+func fightBattle(attackingNation *Nation, defendingNation *Nation, attackPoints []int, defendPoints []int, attackArmies *ArmyCount) {
+	for i := 0; i < min(len(attackPoints), len(defendPoints)); i++ {
 		attack := attackPoints[i]
 		defend := defendPoints[i]
 
@@ -36,20 +46,17 @@ func (game *Game) Attack(attacker NationName, defender NationName, attackArmies 
 			defendingNation.armies--
 		} else {
 			attackingNation.armies--
-			attackArmies--
+			(*attackArmies)--
 		}
 	}
+}
 
+func occupyNationIfDefeated(attackingNation *Nation, defendingNation *Nation, attackArmies ArmyCount) {
 	if defendingNation.armies <= 0 {
 		defendingNation.occupant = attackingNation.occupant
 		attackingNation.armies -= attackArmies
 		defendingNation.armies = attackArmies
 	}
-
-	result.attackPoints = attackPoints
-	result.defendPoints = defendPoints
-
-	return result, nil
 }
 
 func drawBattlePoints(amount ArmyCount) []int {
