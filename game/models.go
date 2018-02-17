@@ -34,10 +34,10 @@ type Player struct {
 	conquestCards map[ConquestCardType]ConquestCardCount
 }
 
-type BattleResult string
-
-const CONQUERED BattleResult = "CONQUERED"
-const DEFENDED BattleResult = "DEFENDED"
+type BattleResult struct {
+	attackPoints []int
+	defendPoints []int
+}
 
 func (game *Game) completeTurn() {
 	game.activePlayer = game.getNextPlayer()

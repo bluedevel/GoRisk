@@ -1,7 +1,6 @@
 package game
 
 import (
-	"errors"
 	"math/rand"
 	"sort"
 )
@@ -23,27 +22,37 @@ func (game *Game) Attack(attacker NationName, defender NationName, attackArmies 
 		return result, err
 	}
 
-	attackNumbers := drawBattleNumbers(attackArmies)
-	defendNumbers := drawBattleNumbers(defendArmies)
+	attackPoints := drawBattlePoints(attackArmies)
+	defendPoints := drawBattlePoints(defendArmies)
 
-	sort.Sort(sort.Reverse(sort.IntSlice(attackNumbers)))
-	sort.Sort(sort.Reverse(sort.IntSlice(defendNumbers)))
+	sort.Sort(sort.Reverse(sort.IntSlice(attackPoints)))
+	sort.Sort(sort.Reverse(sort.IntSlice(defendPoints)))
 
 	for i := 0; i < min(int(attackArmies), int(defendArmies)); i++ {
-		attack := attackNumbers[i]
-		defend := defendNumbers[i]
+		attack := attackPoints[i]
+		defend := defendPoints[i]
 
 		if attack > defend {
 			defendingNation.armies--
 		} else {
 			attackingNation.armies--
+			attackArmies--
 		}
 	}
+
+	if defendingNation.armies <= 0 {
+		defendingNation.occupant = attackingNation.occupant
+		attackingNation.armies -= attackArmies
+		defendingNation.armies = attackArmies
+	}
+
+	result.attackPoints = attackPoints
+	result.defendPoints = defendPoints
 
 	return result, nil
 }
 
-func drawBattleNumbers(amount ArmyCount) []int {
+func drawBattlePoints(amount ArmyCount) []int {
 	res := make([]int, amount)
 
 	for i := 0; i < int(amount); i++ {
