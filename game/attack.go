@@ -18,7 +18,7 @@ func (game *Game) Attack(attacker NationName, defender NationName, attackArmies 
 
 	var attackingNation *Nation
 	var defendingNation *Nation
-	if err := validateInput(attackingNation, defendingNation, *game, attacker, defender, attackArmies, defendArmies); err != nil {
+	if err := validateAttackInput(attackingNation, defendingNation, *game, attacker, defender, attackArmies, defendArmies); err != nil {
 		return result, err
 	}
 
@@ -62,7 +62,7 @@ func drawBattlePoints(amount ArmyCount) []int {
 	return res
 }
 
-func validateInput(attackingNation *Nation, defendingNation *Nation, game Game, attacker NationName, defender NationName, attackArmies ArmyCount, defendArmies ArmyCount) error {
+func validateAttackInput(attackingNation *Nation, defendingNation *Nation, game Game, attacker NationName, defender NationName, attackArmies ArmyCount, defendArmies ArmyCount) error {
 	var err error
 	var nation *Nation
 
