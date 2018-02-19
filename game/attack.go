@@ -3,6 +3,7 @@ package game
 import (
 	"math/rand"
 	"sort"
+	"fmt"
 )
 
 // Attacks a neighbouring nation. Removes defeated armies and sets the occupant
@@ -103,6 +104,21 @@ func validateAttackInput(attackingNation *Nation, defendingNation *Nation, game 
 		return err
 	}
 
+	return nil
+}
+
+
+func (nation Nation) validateArmyCount(count ArmyCount) error {
+	if nation.armies < count {
+		return fmt.Errorf("not enough armies")
+	}
+	return nil
+}
+
+func validateArmyCountForBattle(count ArmyCount) error {
+	if count < 1 || count > 3 {
+		return fmt.Errorf("invalid army count for battle: %d", count)
+	}
 	return nil
 }
 

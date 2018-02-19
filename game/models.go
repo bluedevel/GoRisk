@@ -59,22 +59,6 @@ func (game Game) getNextPlayer() *Player {
 	return game.players[0]
 }
 
-// Moves armies from one nation to another
-//
-// Return error if:
-// 	1) There is no player by this name
-// 	2) There are no nations by this names
-// 	3) The army count is smaller than one
-//	4) The nations are not occupied by the player
-//	5) There is no connecting occupied region between the nations
-func (game *Game) MoveArmies(playerName PlayerName, from NationName, to NationName, amount ArmyCount) error {
-	if err := game.validatePlayer(playerName); err != nil {
-		return err
-	}
-
-	return errors.New("not yet implemented")
-}
-
 // Trades a certain conquest card type for troops and places them as specified.
 //
 // Returns error if:
@@ -109,19 +93,5 @@ func (game Game) validatePlayer(playerName PlayerName) error {
 		return fmt.Errorf("player %s is not active", playerName)
 	}
 
-	return nil
-}
-
-func (nation Nation) validateArmyCount(count ArmyCount) error {
-	if nation.armies < count {
-		return fmt.Errorf("not enough armies")
-	}
-	return nil
-}
-
-func validateArmyCountForBattle(count ArmyCount) error {
-	if count < 1 || count > 3 {
-		return fmt.Errorf("invalid army count for battle: %d", count)
-	}
 	return nil
 }
