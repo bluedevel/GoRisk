@@ -14,10 +14,10 @@ import (
 //	5) There is no connecting occupied region between the nations
 func (game *Game) MoveArmies(from NationName, to NationName, amount ArmyCount) error {
 
-	var fromNation *Nation
-	var toNation *Nation
+	fromNation :=  &Nation{}
+	toNation := &Nation{}
 
-	if err := validateMoveArmiesInput(fromNation, toNation, *game, from, to, amount); err != nil {
+	if err := validateMoveArmiesInput(&fromNation, &toNation, *game, from, to, amount); err != nil {
 		return err
 	}
 
@@ -27,7 +27,7 @@ func (game *Game) MoveArmies(from NationName, to NationName, amount ArmyCount) e
 	return nil
 }
 
-func validateMoveArmiesInput(fromNation *Nation, toNation *Nation, game Game, from NationName, to NationName, amount ArmyCount) error {
+func validateMoveArmiesInput(fromNation **Nation, toNation **Nation, game Game, from NationName, to NationName, amount ArmyCount) error {
 
 	var nation *Nation
 	var err error
@@ -35,22 +35,22 @@ func validateMoveArmiesInput(fromNation *Nation, toNation *Nation, game Game, fr
 	if nation, err = game.getNation(from); err != nil {
 		return err
 	}
-	*fromNation = *nation
+	*fromNation = nation
 
-	if fromNation.armies < amount {
+	if (*fromNation).armies < amount {
 		return fmt.Errorf("unable to move more armies then present")
 	}
 
-	if err := game.validatePlayer(fromNation.occupant.name); err != nil {
+	if err := game.validatePlayer((*fromNation).occupant.name); err != nil {
 		return err
 	}
 
 	if nation, err = game.getNation(to); err != nil {
 		return err
 	}
-	*toNation = *nation
+	*toNation = nation
 
-	if fromNation.occupant != toNation.occupant {
+	if (*fromNation).occupant != (*toNation).occupant {
 		return fmt.Errorf("unable to move armies betweeen nation of different occupants")
 	}
 

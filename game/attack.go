@@ -17,8 +17,9 @@ import (
 func (game *Game) Attack(attacker NationName, defender NationName, attackArmies ArmyCount, defendArmies ArmyCount) (BattleResult, error) {
 	var result BattleResult
 
-	var attackingNation *Nation
-	var defendingNation *Nation
+	attackingNation := &Nation{}
+	defendingNation := &Nation{}
+
 	if err := validateAttackInput(attackingNation, defendingNation, *game, attacker, defender, attackArmies, defendArmies); err != nil {
 		return result, err
 	}
@@ -106,7 +107,6 @@ func validateAttackInput(attackingNation *Nation, defendingNation *Nation, game 
 
 	return nil
 }
-
 
 func (nation Nation) validateArmyCount(count ArmyCount) error {
 	if nation.armies < count {
