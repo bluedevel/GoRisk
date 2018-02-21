@@ -59,6 +59,24 @@ func (game Game) getNextPlayer() *Player {
 	return game.players[0]
 }
 
+func (game Game) getNation(name NationName) (*Nation, error) {
+	for _, nation := range game.world.nations {
+		if nation.name == name {
+			return nation, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no nation by name $s", name)
+}
+
+func (game Game) validatePlayer(playerName PlayerName) error {
+	if game.activePlayer.name != playerName {
+		return fmt.Errorf("player %s is not active", playerName)
+	}
+
+	return nil
+}
+
 // Trades a certain conquest card type for troops and places them as specified.
 //
 // Returns error if:
@@ -76,22 +94,4 @@ func (game *Game) TradeConquestCards(playerName PlayerName, cardType ConquestCar
 //	1) There is no player by this name
 func (game Game) ConquestCardArmies(playerName PlayerName, cardType ConquestCardType) (ArmyCount, error) {
 	return 0, errors.New("not yet implemented")
-}
-
-func (game Game) getNation(name NationName) (*Nation, error) {
-	for _, nation := range game.world.nations {
-		if nation.name == name {
-			return nation, nil
-		}
-	}
-
-	return nil, fmt.Errorf("no nation by name $s", name)
-}
-
-func (game Game) validatePlayer(playerName PlayerName) error {
-	if game.activePlayer.name != playerName {
-		return fmt.Errorf("player %s is not active", playerName)
-	}
-
-	return nil
 }
