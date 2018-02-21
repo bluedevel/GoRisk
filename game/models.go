@@ -69,14 +69,6 @@ func (game Game) getNation(name NationName) (*Nation, error) {
 	return nil, fmt.Errorf("no nation by name $s", name)
 }
 
-func (game Game) validatePlayer(playerName PlayerName) error {
-	if game.activePlayer.name != playerName {
-		return fmt.Errorf("player %s is not active", playerName)
-	}
-
-	return nil
-}
-
 // Trades a certain conquest card type for troops and places them as specified.
 //
 // Returns error if:

@@ -88,8 +88,8 @@ func validateAttackInput(attackingNation **Nation, defendingNation **Nation, gam
 	}
 	*attackingNation = nation
 
-	if err := game.validatePlayer(attackingNation.occupant.name); err != nil {
-		return err
+	if (*attackingNation).occupant != game.activePlayer {
+		return fmt.Errorf("nation %s isn't occupied by player %s", (*attackingNation).name, game.activePlayer.name)
 	}
 
 	if nation, err = game.getNation(defender); err != nil {
@@ -97,11 +97,11 @@ func validateAttackInput(attackingNation **Nation, defendingNation **Nation, gam
 	}
 	*defendingNation = nation
 
-	if err = attackingNation.validateArmyCount(attackArmies); err != nil {
+	if err = (*attackingNation).validateArmyCount(attackArmies); err != nil {
 		return err
 	}
 
-	if err = defendingNation.validateArmyCount(defendArmies); err != nil {
+	if err = (*defendingNation).validateArmyCount(defendArmies); err != nil {
 		return err
 	}
 

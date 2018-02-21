@@ -14,7 +14,7 @@ import (
 //	5) There is no connecting occupied region between the nations
 func (game *Game) MoveArmies(from NationName, to NationName, amount ArmyCount) error {
 
-	fromNation :=  &Nation{}
+	fromNation := &Nation{}
 	toNation := &Nation{}
 
 	if err := validateMoveArmiesInput(&fromNation, &toNation, *game, from, to, amount); err != nil {
@@ -41,8 +41,8 @@ func validateMoveArmiesInput(fromNation **Nation, toNation **Nation, game Game, 
 		return fmt.Errorf("unable to move more armies then present")
 	}
 
-	if err := game.validatePlayer((*fromNation).occupant.name); err != nil {
-		return err
+	if (*fromNation).occupant != game.activePlayer {
+		return fmt.Errorf("nation %s ist not occupied by player %s", (*fromNation).name, game.activePlayer.name)
 	}
 
 	if nation, err = game.getNation(to); err != nil {
