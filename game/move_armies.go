@@ -51,7 +51,7 @@ func validateMoveArmiesInput(fromNation **Nation, toNation **Nation, game Game, 
 	*toNation = nation
 
 	if (*fromNation).occupant != (*toNation).occupant {
-		return fmt.Errorf("unable to move armies betweeen nation of different occupants")
+		return fmt.Errorf("unable to move armies betweeen nations of different occupants")
 	}
 
 	// implement region path finding here
