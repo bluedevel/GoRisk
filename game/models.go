@@ -14,6 +14,27 @@ type Game struct {
 
 type World struct {
 	nations []*Nation
+	regions []*Region
+}
+
+type RegionName string
+type Region struct {
+	name        RegionName
+	nations     []*Nation
+	bonusArmies ArmyCount
+}
+
+func (region *Region) SingleOccupant() (bool, *Player) {
+	var player *Player
+	for _, nation := range region.nations {
+		if player == nil {
+			player = nation.occupant
+		} else if player != nation.occupant {
+			return false, nil
+		}
+	}
+	// player could be nil here if region had no nations
+	return player != nil, player
 }
 
 type NationName string
@@ -31,17 +52,13 @@ type ConquestCardCount int
 type PlayerName string
 type Player struct {
 	name          PlayerName
+	freeArmies    ArmyCount
 	conquestCards map[ConquestCardType]ConquestCardCount
 }
 
 type BattleResult struct {
 	attackPoints []int
 	defendPoints []int
-}
-
-func (game *Game) completeTurn() {
-	game.activePlayer = game.getNextPlayer()
-	game.turn++
 }
 
 // Returns the next player in line or the first of none is set yet.
