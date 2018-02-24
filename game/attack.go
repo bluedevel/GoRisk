@@ -65,7 +65,7 @@ func drawBattlePoints(amount ArmyCount) []int {
 	res := make([]int, amount)
 
 	for i := 0; i < int(amount); i++ {
-		res[i] = rand.Int()
+		res[i] = rand.Intn(5) + 1
 	}
 
 	return res
